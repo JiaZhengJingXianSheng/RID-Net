@@ -11,7 +11,7 @@ import torch.nn as nn
 from Network import RIDNet
 import torch
 from Eval import pre
-import tqdm
+from tqdm import tqdm
 
 noisy_data_path = "dataset/noisy/"
 origin_data_path = "dataset/ground_truth/"
