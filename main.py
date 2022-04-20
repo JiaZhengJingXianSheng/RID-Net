@@ -12,6 +12,7 @@ from Network import RIDNet
 import torch
 from Eval import pre
 from tqdm import tqdm
+from pytorch_mssim import MS_SSIM
 
 noisy_data_path = "dataset/noisy/"
 origin_data_path = "dataset/ground_truth/"
@@ -26,14 +27,7 @@ epochs = 1000
 white_level = 16383
 black_level = 1024
 
-
-class PSNRLoss(nn.Module):
-    def __init__(self):
-        super(PSNRLoss, self).__init__()
-
-    def forward(self, img1, img2):
-        return 20 * torch.log10(1 / torch.sqrt(nn.MSELoss(img1, img2)))
-
+Loss = MS_SSIM(data_range=white_level, size_average=True, channel=4)
 
 if __name__ == "__main__":
     net = RIDNet(4, 4, 32).to(device)
@@ -60,7 +54,7 @@ if __name__ == "__main__":
             X, Y = X.to(device), Y.to(device)
             optimizer.zero_grad()
             Y_HAT = net(X)
-            l = PSNRLoss(Y_HAT, Y)
+            l = 1 - Loss(Y_HAT, Y)
             l.backward()
             optimizer.step()
 
