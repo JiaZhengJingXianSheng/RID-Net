@@ -20,11 +20,20 @@ OriginFiles = os.listdir(origin_data_path)
 NoisyFiles_len = len(NoisyFiles)
 device = "cuda:0"
 lr = 0.0001
-loss = nn.L1Loss()
+# loss = nn.L1Loss()
 epochs = 1000
 # model_path = "CBD-880.pth"
 white_level = 16383
 black_level = 1024
+
+
+class PSNRLoss(nn.Module):
+    def __init__(self):
+        super(PSNRLoss, self).__init__()
+
+    def forward(self, img1, img2):
+        return 20 * torch.log10(1 / torch.sqrt(nn.MSELoss(img1, img2)))
+
 
 if __name__ == "__main__":
     net = RIDNet(4, 4, 32).to(device)
@@ -51,7 +60,7 @@ if __name__ == "__main__":
             X, Y = X.to(device), Y.to(device)
             optimizer.zero_grad()
             Y_HAT = net(X)
-            l = loss(Y_HAT, Y)
+            l = PSNRLoss(Y_HAT, Y)
             l.backward()
             optimizer.step()
 
