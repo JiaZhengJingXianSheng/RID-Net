@@ -52,14 +52,14 @@ class EAM(nn.Module):
         # Residual block
         self.conv4 = nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=1, padding=1)
         self.relu4 = nn.ReLU()
-        self.conv5 = nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=1, padding=1)
+        # self.conv5 = nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=1, padding=1)
         self.relu5 = nn.ReLU()
 
         # Enhance Residual block
         self.conv6 = nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=1, padding=1)
         self.relu6 = nn.ReLU()
-        self.conv7 = nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=1, padding=1)
-        self.relu7 = nn.ReLU()
+        # self.conv7 = nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=1, padding=1)
+        # self.relu7 = nn.ReLU()
         self.conv8 = nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=1, padding=0)
         self.relu8 = nn.ReLU()
 
@@ -86,16 +86,16 @@ class EAM(nn.Module):
         # Residual block
         x4 = self.conv4(x3)
         x4 = self.relu4(x4)
-        x4 = self.conv5(x4)
+        # x4 = self.conv5(x4)
         x5 = x4 + x3
         x5 = self.relu5(x5)
 
         # Enhance Residual block
         x6 = self.conv6(x5)
         x6 = self.relu6(x6)
-        x7 = self.conv7(x6)
-        x7 = self.relu7(x7)
-        x8 = self.conv8(x7)
+        # x7 = self.conv7(x6)
+        # x7 = self.relu7(x7)
+        x8 = self.conv8(x6)
         x8 = x8 + x5
         x8 = self.relu8(x8)
 
