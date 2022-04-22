@@ -38,13 +38,13 @@ class EAM(nn.Module):
         # Merge and run block
         self.path1_conv1 = nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=1)
         self.path1_relu1 = nn.ReLU()
-        # self.path1_conv2 = nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=2, dilation=2)
-        # self.path1_relu2 = nn.ReLU()
+        self.path1_conv2 = nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=2, dilation=2)
+        self.path1_relu2 = nn.ReLU()
 
         self.path2_conv1 = nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=3, dilation=3)
         self.path2_relu1 = nn.ReLU()
-        # self.path2_conv2 = nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=4, dilation=4)
-        # self.path2_relu2 = nn.ReLU()
+        self.path2_conv2 = nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=4, dilation=4)
+        self.path2_relu2 = nn.ReLU()
 
         self.conv3 = nn.Conv2d(in_channels * 2, out_channels, kernel_size, stride=1, padding=1)
         self.relu3 = nn.ReLU()
@@ -70,13 +70,13 @@ class EAM(nn.Module):
         # Merge and run block
         x1 = self.path1_conv1(x)
         x1 = self.path1_relu1(x1)
-        # x1 = self.path1_conv2(x1)
-        # x1 = self.path1_relu2(x1)
+        x1 = self.path1_conv2(x1)
+        x1 = self.path1_relu2(x1)
 
         x2 = self.path2_conv1(x)
         x2 = self.path2_relu1(x2)
-        # x2 = self.path2_conv2(x2)
-        # x2 = self.path2_relu2(x2)
+        x2 = self.path2_conv2(x2)
+        x2 = self.path2_relu2(x2)
 
         x3 = torch.cat([x1, x2], dim=1)
         x3 = self.conv3(x3)
